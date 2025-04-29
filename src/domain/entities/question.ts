@@ -1,8 +1,9 @@
 import { randomUUID } from "node:crypto";
+import { Slug } from "./value-objects/slug";
 
 interface QuestionProps {
   title: string;
-  slug: string;
+  slug: Slug;
   content: string;
   authorId: string;
 }
@@ -10,7 +11,7 @@ interface QuestionProps {
 export class Question {
   public id: string;
   public title: string;
-  public slug: string;
+  public slug: Slug;
   public content: string;
   public authorId: string;
 
