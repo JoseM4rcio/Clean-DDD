@@ -14,5 +14,8 @@
     "@types/node": "^22.15.2",
     "typescript": "^5.8.3",
     "vitest": "^3.1.2"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.18"
   }
 }
