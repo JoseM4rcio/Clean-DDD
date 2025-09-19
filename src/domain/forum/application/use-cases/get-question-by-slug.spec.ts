@@ -1,0 +1,35 @@
+import { InMemoryQuestionsRepository } from "test/repositories/in-memory-questions-repository";
+import { GetQuestionBySlugUseCase } from "./get-question-by-slug";
+import { Question } from "../../enterprise/entities/question";
+import { Slug } from "../../enterprise/entities/value-objects/slug";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+
+let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
+let getQuestionBySlug: GetQuestionBySlugUseCase;
+
+describe("Get Question By Slug", () => {
+  beforeEach(() => {
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
+    getQuestionBySlug = new GetQuestionBySlugUseCase(
+      inMemoryQuestionsRepository
+    );
+  });
+
+  it("should be able to get a question by slug", async () => {
+    const newQuestion = Question.create({
+      authorId: new UniqueEntityID(),
+      title: "Example Question",
+      slug: Slug.create("example-question"),
+      content: "This is an example question content.",
+    });
+
+    await inMemoryQuestionsRepository.create(newQuestion);
+
+    const { question } = await getQuestionBySlug.execute({
+      slug: "example-question",
+    });
+
+    expect(question.id).toBeTruthy();
+    expect(question.title).toEqual(newQuestion.title);
+  });
+});
