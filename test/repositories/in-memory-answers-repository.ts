@@ -1,5 +1,6 @@
 import { AnswersRepository } from "@/domain/forum/application/repositories/answers-repository";
 import { Answer } from "@/domain/forum/enterprise/entities/answer";
+import { A } from "@faker-js/faker/dist/airline-CHFQMWko";
 
 export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = [];
@@ -15,6 +16,12 @@ export class InMemoryAnswersRepository implements AnswersRepository {
   }
   async create(answer: Answer) {
     this.items.push(answer);
+  }
+
+  async save(answer: Answer) {
+    const answerIndex = this.items.findIndex((item) => item.id === answer.id);
+
+    this.items[answerIndex] = answer;
   }
 
   async delete(answer: Answer) {
