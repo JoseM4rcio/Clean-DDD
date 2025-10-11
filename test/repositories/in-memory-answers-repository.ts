@@ -1,6 +1,6 @@
+import { PaginationParams } from "@/core/repositories/pagination-params";
 import { AnswersRepository } from "@/domain/forum/application/repositories/answers-repository";
 import { Answer } from "@/domain/forum/enterprise/entities/answer";
-import { A } from "@faker-js/faker/dist/airline-CHFQMWko";
 
 export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = [];
@@ -14,6 +14,15 @@ export class InMemoryAnswersRepository implements AnswersRepository {
 
     return answer;
   }
+
+  async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
+    const answers = this.items
+      .filter((item) => item.questionId.toString() === questionId)
+      .slice((page - 1) * 20, page * 20);
+
+    return answers;
+  }
+
   async create(answer: Answer) {
     this.items.push(answer);
   }
