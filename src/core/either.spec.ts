@@ -1,4 +1,3 @@
-import { tr } from "@faker-js/faker/.";
 import { Either, left, right } from "./either";
 
 function doSomething(shouldSucceed: boolean): Either<string, number> {
