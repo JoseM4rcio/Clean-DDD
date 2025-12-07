@@ -3,6 +3,7 @@ import { makeAnswer } from "test/factories/make-answer";
 import { DeleteAnswerUseCase } from "./delete-answer";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { runInContext } from "node:vm";
+import { NotAllowedError } from "./errors/not-allowed-error";
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let deleteAnswer: DeleteAnswerUseCase;
@@ -41,11 +42,12 @@ describe("Delete Answer", () => {
 
     await inMemoryAnswersRepository.create(newAnswer);
 
-    expect(() => {
-      return deleteAnswer.execute({
-        authorId: "author-2",
-        answerId: "answer-1",
-      });
-    }).rejects.toBeInstanceOf(Error);
+    const result = await deleteAnswer.execute({
+      authorId: "author-2",
+      answerId: "answer-1",
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

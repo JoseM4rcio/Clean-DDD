@@ -11,13 +11,13 @@ describe("Create Answer", () => {
   });
 
   it("should be able to create an answer", async () => {
-    const { answer } = await createAnswer.execute({
+    const result = await createAnswer.execute({
       questionId: "1",
       instructorId: "1",
       content: "Conteúdo da resposta",
     });
 
-    expect(answer.id).toBeTruthy();
-    expect(inMemoryAnswersRepository.items[0].id).toEqual(answer.id);
+    expect(result.isRight()).toBe(true);
+    expect(inMemoryAnswersRepository.items[0]).toEqual(result.value?.answer);
   });
 });

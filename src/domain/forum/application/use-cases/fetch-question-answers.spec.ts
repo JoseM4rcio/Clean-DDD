@@ -36,12 +36,12 @@ describe("Fetch Question Answers", () => {
       })
     );
 
-    const { answers } = await fetchQuestionAnswers.execute({
+    const result = await fetchQuestionAnswers.execute({
       questionId: "question-1",
       page: 1,
     });
 
-    expect(answers).toHaveLength(4);
+    expect(result.value?.answers).toHaveLength(4);
   });
 
   it("should be able to fetch paginated question answers", async () => {
@@ -53,11 +53,11 @@ describe("Fetch Question Answers", () => {
       );
     }
 
-    const { answers } = await fetchQuestionAnswers.execute({
+    const result = await fetchQuestionAnswers.execute({
       questionId: "question-1",
       page: 2,
     });
 
-    expect(answers).toHaveLength(2);
+    expect(result.value?.answers).toHaveLength(2);
   });
 });
